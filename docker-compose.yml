@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+    
+  api:
+    build:
+      context: ./FreightLinker
+    command: python /usr/src/FreightLinker/manage.py runserver 0.0.0.0:8100
+    volumes:
+      - ./FreightLinker:/usr/src/FreightLinker
+    ports:
+      - 8100:8100
+    depends_on:
+      - freightLinker_db
+
+  freightLinker_db:
+      image: postgres
+      environment:
+        - POSTGRES_DB=freightLinker_app
+        - POSTGRES_USER=admindb
+        - POSTGRES_PASSWORD=12345678
+      container_name: freightLinker_db
+      volumes:
+        - pgdbdata:/var/lib/postgresql/data/
+volumes:
+  pgdbdata:
+  
+
